@@ -92,39 +92,6 @@ export default {
       this.dialogSubscribeEvent = true
     },
 
-    async inscrever(event) {
-      const userId = 6;
-      const registrationData = {
-        event_id: event.id,
-        user_id: userId,
-        status: 'registered'
-      };
-
-      try {
-        this.loading = true;
-        await eventsApi.createRegistration(registrationData);
-        alert('Inscrição realizada com sucesso!');
-
-        if (this.user && this.user.email) {
-          await emailsApi.sendEmail({
-            to: this.user.email,
-            subject: "Inscrição realizada com sucesso",
-            text: `A inscrição para o evento ${event.name} foi realizada com sucesso.`
-          });
-          alert('E-mail de confirmação enviado!');
-        } else {
-          console.error('E-mail do usuário não encontrado');
-        }
-
-        this.dialog = false;
-      } catch (error) {
-        console.error('Erro ao se inscrever:', error);
-        alert('Erro ao tentar se inscrever, tente novamente!');
-      } finally {
-        this.loading = false;
-      }
-    },
-
     openGenerateCertificate(event) {
       if (event.status !== 'checked-in') {
         alert('Você precisa ter comparecido ao evento para gerar o certificado.');

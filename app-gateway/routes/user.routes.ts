@@ -64,4 +64,15 @@ router.delete("/:id", isLogged, async (req, res) => {
     res.send(user.data);
 })
 
+router.post("/:id/change-password", isLogged, async (req, res) => {
+    let id = parseInt(req.params.id);
+    try {
+        let user = await userApi.changePassword(id, req.body.password, req.body.new_password);
+        res.status(201).send(user.data);
+    } catch (error: any) {
+        if (error.response.status === 400) res.status(400).send("Invalid data");
+        else res.status(500).send("Internal server error");
+    }
+})
+
 export default router;

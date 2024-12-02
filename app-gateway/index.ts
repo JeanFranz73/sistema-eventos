@@ -61,7 +61,7 @@ app.post('/upload', async (req, res) => {
         })
 
         await unregisteredParticipants.map(async (participant: any) => {
-            await registerParticipant(participant.event_id, participant.user_id)
+            await registerParticipant(participant.event_id, participant.user_id, participant.status)
         })
     } catch (error: any) {
         if (error.response.status === 400) res.status(400).send("Invalid data")

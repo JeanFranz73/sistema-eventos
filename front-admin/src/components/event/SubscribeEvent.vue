@@ -1,6 +1,7 @@
 <script>
 import eventsApi from '@/api/events.api';
 import { useUserStore } from '@/stores/user.store';
+import { useAppStore } from '@/stores/app.store';
 import { mapState } from 'pinia';
 
 export default {
@@ -25,6 +26,7 @@ export default {
   }),
 
   computed: {
+    ...mapState(useAppStore, ['isOffline']),
     ...mapState(useUserStore, ['getUserId']),
 
     value: {
@@ -53,7 +55,7 @@ export default {
         const registrationData = {
           event_id: this.event.id,
           user_id: this.getUserId,
-          status: 'registered'
+          status: this.isOffline ? 'checked-id' : 'registered'
         }
 
         await eventsApi.createRegistration(registrationData)

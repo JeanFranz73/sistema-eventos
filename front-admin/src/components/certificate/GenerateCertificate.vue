@@ -1,38 +1,45 @@
 <template>
-    <v-dialog v-model="value" max-width="500px">
-      <v-card>
-        <v-card-title>
-          <span class="headline">Acessar Certificado</span>
-        </v-card-title>
-        <v-card-text>
-          Deseja acessar o certificado para o evento "{{ event.name }}"?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="blue darken-1" text @click="value = false">
-            Cancelar
-          </v-btn>
-          <v-btn
-            v-if="certificateExists"
-            color="green darken-1"
-            text
-            @click="openCertificate"
-          >
-            Abrir Certificado
-          </v-btn>
-          <v-btn
-            v-if="!certificateExists"
-            color="blue darken-1"
-            text
-            @click="generateCertificate"
-          >
-            Gerar Certificado
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </template>  
-  
+  <v-dialog
+    v-model="value"
+    max-width="500px"
+  >
+    <v-card>
+      <v-card-title>
+        <span class="headline">Acessar Certificado</span>
+      </v-card-title>
+      <v-card-text>
+        Deseja acessar o certificado para o evento "{{ event.name }}"?
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          color="blue darken-1"
+          text
+          @click="value = false"
+        >
+          Cancelar
+        </v-btn>
+        <v-btn
+          v-if="certificateExists"
+          color="green darken-1"
+          text
+          @click="openCertificate"
+        >
+          Abrir Certificado
+        </v-btn>
+        <v-btn
+          v-if="!certificateExists"
+          color="blue darken-1"
+          text
+          @click="generateCertificate"
+        >
+          Gerar Certificado
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+
   <script>
 import { jsPDF } from 'jspdf';
 import certificatesApi from '@/api/certificates.api';
@@ -71,6 +78,14 @@ export default {
       },
       set(value) {
         this.$emit('update:modelValue', value);
+      }
+    }
+  },
+
+  watch: {
+    value(newVal) {
+      if (newVal) {
+        this.checkCertificateExistence();
       }
     }
   },
@@ -156,7 +171,7 @@ export default {
         pdf.text('Emitido por: Eventovates', margin, yPosition + 10);
         pdf.text(`Data de Emissão: ${new Date().toLocaleDateString()}`, margin, yPosition + 20);
         pdf.text(`Token de autenticação: ${certificate.auth_token}`, margin, yPosition + 30);
-        pdf.text(`Link para autenticar certificado: http://localhost:5174/validadecertificate`, margin, yPosition + 40);
+        pdf.text(`Link para autenticar certificado: http://localhost:5173/validadecertificate`, margin, yPosition + 40);
 
         const pdfBlob = pdf.output('blob')
         const pdfUrl = URL.createObjectURL(pdfBlob)
@@ -166,14 +181,6 @@ export default {
       } catch (error) {
         console.error('Erro ao abrir o certificado:', error);
         alert('Erro ao abrir o certificado. Tente novamente.');
-      }
-    }
-  },
-
-  watch: {
-    value(newVal) {
-      if (newVal) {
-        this.checkCertificateExistence();
       }
     }
   }

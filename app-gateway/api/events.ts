@@ -36,8 +36,8 @@ export const getParticipantEvents = async (id: number) => {
     return await api.get(`/registrations/user/${id}`)
 }
 
-export const registerParticipant = async (event_id: number, user_id: number) => {
-    return await api.post("/registrations", { event_id, user_id, status: "registered" })
+export const registerParticipant = async (event_id: number, user_id: number, status: string) => {
+    return await api.post("/registrations", { event_id, user_id, status })
 }
 
 export const checkinParticipant = async (id: number, user_id: number) => {

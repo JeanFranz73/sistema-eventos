@@ -58,11 +58,11 @@ export default {
         to="/portal/myevents"
       />
 
-      <v-list-item
+      <!-- <v-list-item
         prepend-icon="mdi-file-certificate"
         title="Certificados"
         to="/portal/certificates"
-      />
+      /> -->
 
       <div v-if="isAdmin">
         <v-divider />

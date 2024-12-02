@@ -68,7 +68,7 @@ export class UserController {
         if (user.password) {
           text = 'Your registration is complete!'
         } else {
-          text = `Please finish your registration by clicking the link <a href="http://localhost:5173/finish/${user.email}">here</a>.`
+          text = `Please finish your registration by clicking the link <a href="http://localhost:5173/finish?id=${user.id}">here</a>.`
         }
         await sendEmail(user.email, 'Welcome to Eventovates!', text);
       } catch (e) {

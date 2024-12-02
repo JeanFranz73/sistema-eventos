@@ -23,6 +23,10 @@ router.onError((err, to) => {
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
 
+  if (to.path === '/') {
+    return next('/events')
+  }
+
   if (token && to.path === '/login') {
     return next('/portal/events')
   }

@@ -63,7 +63,7 @@ class UsersApi {
   }
 
   async changePassword(id, password, new_password) {
-    return await api.put(`/users/${id}/change-password`, { password, new_password });
+    return await api.post(`/users/${id}/change-password`, { password, new_password });
   }
 
   async login(email, password) {
